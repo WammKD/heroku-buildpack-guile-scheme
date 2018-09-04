@@ -12,6 +12,8 @@ if [ ! -s $1/hello.txt ]; then
   exit 1
 fi
 
+apt-get update
+apt-get install -y guile-2.0
 guile-2.0 --version
 
 # replace hello with goodbye in a new file

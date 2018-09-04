@@ -1,8 +1,34 @@
 #!/bin/sh
 
-indent() {
-  sed -u 's/^/       /'
+# fail fast
+set -e
+
+# debug
+# set -x
+
+# parse and derive params
+BUILD_DIR=$1
+CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+function error() {
+  echo " !     $*" >&2
+  exit 1
 }
+
+function topic() {
+  echo "-----> $*"
+}
+
+function indent() {
+  c='s/^/       /'
+  case $(uname) in
+    Darwin) sed -l "$c";;
+    *)      sed -u "$c";;
+  esac
+}
+
+
 
 echo "-----> Found a hello.txt"
 
@@ -12,9 +38,18 @@ if [ ! -s $1/hello.txt ]; then
   exit 1
 fi
 
-apt-get update
-apt-get install -y guile-2.0
-guile-2.0 --version
+
+
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
+
+mkdir -p "$APT_CACHE_DIR/archives/partial"
+mkdir -p "$APT_STATE_DIR/lists/partial"
+
+APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
+ 
+topic "Updating apt caches"
+apt-get $APT_OPTIONS update | indent
 
 # replace hello with goodbye in a new file
 cat $1/hello.txt | sed -e "s/[Hh]ello/Goodbye/g" > $1/goodbye.txt

@@ -11,16 +11,16 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-function error() {
+error() {
   echo " !     $*" >&2
   exit 1
 }
 
-function topic() {
+topic() {
   echo "-----> $*"
 }
 
-function indent() {
+indent() {
   c='s/^/       /'
   case $(uname) in
     Darwin) sed -l "$c";;

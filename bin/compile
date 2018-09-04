@@ -12,7 +12,7 @@ if [ ! -s $1/hello.txt ]; then
   exit 1
 fi
 
-apt-get install guile-2.0
+apt-get install "guile-2.0"
 
 # replace hello with goodbye in a new file
 cat $1/hello.txt | sed -e "s/[Hh]ello/Goodbye/g" > $1/goodbye.txt

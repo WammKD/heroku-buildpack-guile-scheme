@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # fail fast
 set -e
@@ -11,16 +11,16 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-error() {
+function error() {
   echo " !     $*" >&2
   exit 1
 }
 
-topic() {
+function topic() {
   echo "-----> $*"
 }
 
-indent() {
+function indent() {
   c='s/^/       /'
   case $(uname) in
     Darwin) sed -l "$c";;

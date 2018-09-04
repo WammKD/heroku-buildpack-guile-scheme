@@ -54,7 +54,7 @@ apt-get $APT_OPTIONS -y --force-yes -d install --reinstall guile-2.0 | indent
 
 mkdir -p $BUILD_DIR/.apt
 
-for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
+for DEB in $(ls -1r $APT_CACHE_DIR/archives/*.deb); do
   topic "Installing $(basename $DEB)"
   dpkg -x $DEB $BUILD_DIR/.apt/
 done

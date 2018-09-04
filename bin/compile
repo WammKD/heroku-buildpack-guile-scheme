@@ -95,6 +95,15 @@ make install
 
 cd ..
 
+curl -O -L -J https://github.com/ivmai/bdwgc/files/1005610/gc-7.4.2.tar.gz
+tar zxf gc-7.4.2.tar.gz
+cd gc-7.4.2
+./configure --prefix=$HOME/.local
+make
+make install
+
+cd ..
+
 curl -O ftp://ftp.gnu.org/gnu/guile/guile-2.0.11.tar.gz
 tar zxf guile-2.0.11.tar.gz
 cd guile-2.0.11

@@ -61,7 +61,16 @@ apt-get $APT_OPTIONS update | indent
 # apt-get $APT_OPTIONS -y --force-yes -d install --reinstall libunistring0 | indent
 apt-get $APT_OPTIONS -y --force-yes -d install --reinstall guile-2.0 | indent
 
-ls -A /app/tmp/cache/apt/cache/archives/
+mkdir -p $BUILD_DIR/.apt
+
+for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
+  topic "Installing $(basename $DEB)"
+  dpkg -x $DEB $BUILD_DIR/.apt/
+done
+
+find / -iname *guile* | indent
+# ls -A /app/tmp/cache/apt/cache/archives/
+# dpkg -i /app/tmp/cache/apt/cache/archives/libgc1c2_1%3a7.4.2-7.3ubuntu0.1_amd64.deb
 # ls -A /usr/local/bin
 
 # replace hello with goodbye in a new file

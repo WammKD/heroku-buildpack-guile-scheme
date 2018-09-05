@@ -28,97 +28,49 @@ function indent() {
   esac
 }
 
+APT_CACHE_DIR="$CACHE_DIR/apt/cache"
+APT_STATE_DIR="$CACHE_DIR/apt/state"
 
+mkdir -p "$APT_CACHE_DIR/archives/partial"
+mkdir -p "$APT_STATE_DIR/lists/partial"
 
-echo "-----> Found a hello.txt"
+APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
 
-# if hello.txt is empty, abort the build
-if [ ! -s $1/hello.txt ]; then
-  echo "hello.txt was empty" | indent
-  exit 1
-fi
+topic "Updating apt caches"
+apt-get $APT_OPTIONS update | indent
 
+topic "Fetching .debs for $PACKAGE"
+apt-get $APT_OPTIONS -y --force-yes -d install --reinstall guile-2.0 | indent
 
+mkdir -p $BUILD_DIR/.apt
 
-# APT_CACHE_DIR="$CACHE_DIR/apt/cache"
-# APT_STATE_DIR="$CACHE_DIR/apt/state"
+for DEB in $(ls -1r $APT_CACHE_DIR/archives/*.deb); do
+  topic "Installing $(basename $DEB)"
+  dpkg -x $DEB $BUILD_DIR/.apt/
+done
 
-# mkdir -p "$APT_CACHE_DIR/archives/partial"
-# mkdir -p "$APT_STATE_DIR/lists/partial"
+topic "Writing profile script"
+mkdir -p $BUILD_DIR/.profile.d
+cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
+export PATH="\$HOME/.apt/usr/bin:\$PATH"
+export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LD_LIBRARY_PATH"
+export LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LIBRARY_PATH"
+export INCLUDE_PATH="\$HOME/.apt/usr/include:\$INCLUDE_PATH"
+export CPATH="\$INCLUDE_PATH"
+export CPPPATH="\$INCLUDE_PATH"
+export PKG_CONFIG_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/pkgconfig:\$PKG_CONFIG_PATH"
+EOF
 
-# APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
- 
-# topic "Updating apt caches"
-# apt-get $APT_OPTIONS update | indent
-# apt-get $APT_OPTIONS -y --force-yes -d install --reinstall guile-2.0 | indent
+export PATH="$BUILD_DIR/.apt/usr/bin:$PATH"
+export LD_LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
+export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
+export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$INCLUDE_PATH"
+export CPATH="$INCLUDE_PATH"
+export CPPPATH="$INCLUDE_PATH"
+export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-# mkdir -p $BUILD_DIR/.apt
-
-# for DEB in $(ls -1r $APT_CACHE_DIR/archives/*.deb); do
-#   topic "Installing $(basename $DEB)"
-#   dpkg -x $DEB $BUILD_DIR/.apt/
-# done
-
-# topic "Writing profile script"
-# mkdir -p $BUILD_DIR/.profile.d
-# cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
-# export PATH="\$HOME/.apt/usr/bin:\$PATH"
-# export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LD_LIBRARY_PATH"
-# export LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LIBRARY_PATH"
-# export INCLUDE_PATH="\$HOME/.apt/usr/include:\$INCLUDE_PATH"
-# export CPATH="\$INCLUDE_PATH"
-# export CPPPATH="\$INCLUDE_PATH"
-# export PKG_CONFIG_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/pkgconfig:\$PKG_CONFIG_PATH"
-# EOF
-
-# export PATH="$BUILD_DIR/.apt/usr/bin:$PATH"
-# export LD_LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
-# export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
-# export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$INCLUDE_PATH"
-# export CPATH="$INCLUDE_PATH"
-# export CPPPATH="$INCLUDE_PATH"
-# export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
-
-# #give environment to later buildpacks
-# export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
-
-# mkdir -p ~/.local
-
-# cd /tmp
-
-# curl -O ftp://ftp.gnu.org/gnu/libunistring/libunistring-0.9.3.tar.gz
-# tar zxf libunistring-0.9.3.tar.gz
-# cd libunistring-0.9.3
-# ./configure --prefix=$HOME/.local
-# make
-# make install
-
-# cd ..
-
-# curl -O -L -J curl -O -L -J https://github.com/ivmai/libatomic_ops/files/991111/libatomic_ops-7.4.2.tar.gz
-# tar zxf libatomic_ops-7.4.2.tar.gz
-# cd libatomic_ops-7.4.2
-# ./configure --prefix=$HOME/.local
-# make
-# make install
-
-# cd ..
-
-# curl -O -L -J https://github.com/ivmai/bdwgc/files/1005610/gc-7.4.2.tar.gz
-# tar zxf gc-7.4.2.tar.gz
-# cd gc-7.4.2
-# ./configure --prefix=$HOME/.local
-# make
-# make install
-
-# cd ..
-
-# curl -O ftp://ftp.gnu.org/gnu/guile/guile-2.0.11.tar.gz
-# tar zxf guile-2.0.11.tar.gz
-# cd guile-2.0.11
-# ./configure --prefix=$HOME/.local
-# make
-# make install
+#give environment to later buildpacks
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
 
 guile-2.0 --version
 # find / -iname *guile* | indent

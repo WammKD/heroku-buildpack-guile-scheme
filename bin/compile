@@ -104,6 +104,15 @@ make install
 
 cd ..
 
+curl -O -L -J curl -O -L -J https://github.com/ivmai/libatomic_ops/files/991111/libatomic_ops-7.4.2.tar.gz
+tar zxf libatomic_ops-7.4.2.tar.gz
+cd libatomic_ops-7.4.2
+./configure --prefix=$HOME/.local
+make
+make install
+
+cd ..
+
 curl -O ftp://ftp.gnu.org/gnu/guile/guile-2.0.11.tar.gz
 tar zxf guile-2.0.11.tar.gz
 cd guile-2.0.11

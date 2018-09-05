@@ -95,18 +95,18 @@ make install
 
 cd ..
 
-curl -O -L -J https://github.com/ivmai/bdwgc/files/1005610/gc-7.4.2.tar.gz
-tar zxf gc-7.4.2.tar.gz
-cd gc-7.4.2
+curl -O -L -J curl -O -L -J https://github.com/ivmai/libatomic_ops/files/991111/libatomic_ops-7.4.2.tar.gz
+tar zxf libatomic_ops-7.4.2.tar.gz
+cd libatomic_ops-7.4.2
 ./configure --prefix=$HOME/.local
 make
 make install
 
 cd ..
 
-curl -O -L -J curl -O -L -J https://github.com/ivmai/libatomic_ops/files/991111/libatomic_ops-7.4.2.tar.gz
-tar zxf libatomic_ops-7.4.2.tar.gz
-cd libatomic_ops-7.4.2
+curl -O -L -J https://github.com/ivmai/bdwgc/files/1005610/gc-7.4.2.tar.gz
+tar zxf gc-7.4.2.tar.gz
+cd gc-7.4.2
 ./configure --prefix=$HOME/.local
 make
 make install

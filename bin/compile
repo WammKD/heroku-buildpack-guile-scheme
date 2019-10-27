@@ -2,10 +2,10 @@
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
-set -e
+# set -e
 
 # debug
-# set -x
+set -ex
 
 # parse and derive params
 BUILD_DIR=$1

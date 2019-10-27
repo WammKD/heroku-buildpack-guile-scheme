@@ -87,7 +87,7 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep --reinstall guile-2.0              | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0              | indent
 apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall libmysql++-dev libnss3 | indent
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do

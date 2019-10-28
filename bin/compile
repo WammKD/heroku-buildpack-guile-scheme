@@ -42,7 +42,7 @@ function install() {
 	for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 		topic "Installing $(basename $DEB)"
 
-		dpkg -x --configure $DEB $BUILD_DIR/.apt/
+		dpkg -x $DEB $BUILD_DIR/.apt/
 	done
 
 	rm $APT_CACHE_DIR/archives/*.deb

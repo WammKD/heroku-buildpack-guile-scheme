@@ -8,6 +8,7 @@
 set -ex
 
 # parse and derive params
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
 BUILD_DIR=$1
 CACHE_DIR=$2
 GUILE_VERSION=2.2.6
@@ -87,8 +88,8 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0              | indent
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall libmysql++-dev libnss3 | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0                            | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall guile-2.2-dev libmysql++-dev libnss3 | indent
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 	topic "Installing $(basename $DEB)"
@@ -122,17 +123,15 @@ export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
 export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu/pkgconfig:$BUILD_DIR/.apt/usr/lib/pkgconfig:$PKG_CONFIG_PATH"
 
+#give environment to later buildpacks
+export | grep -E -e ' (PATH|LD_LIBRARY_PATH|LIBRARY_PATH|INCLUDE_PATH|CPATH|CPPPATH|PKG_CONFIG_PATH)='  > "$LP_DIR/export"
+
+topic "Rewrite package-config files"
+find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty -n 1 sed -i -e 's!^prefix=\(.*\)$!prefix='"$BUILD_DIR"'/.apt\1!g'
+
 
 
 cd /tmp
-
-topic "Installing Guile"
-wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz && \
-	tar xvzf guile-$GUILE_VERSION.tar.gz                            && \
-	rm -f guile-$GUILE_VERSION.tar.gz                               && \
-	cd guile-$GUILE_VERSION && ./configure && make                  && \
-	make install && ldconfig                                        && \
-	cd .. && rm -rf guile-$GUILE_VERSION
 
 topic "Installing Nettle"
 wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz       && \

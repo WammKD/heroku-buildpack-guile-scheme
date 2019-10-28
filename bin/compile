@@ -163,7 +163,7 @@ topic "Installing GnuTLS"
 wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                                       && \
 	tar xJf gnutls-3.6.7.tar.xz                                                                                                  && \
 	rm -f gnutls-3.6.7.tar.xz                                                                                                    && \
-	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="$HOME/.apt/usr/bin/guile-2.2" && make && \
+	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="$BUILD_DIR/.apt/usr/bin/guile-2.2" && make && \
 	make install && ldconfig                                                                                                     && \
 	cd .. && rm -rf gnutls-3.6.7
 

@@ -126,46 +126,52 @@ export PKG_CONFIG_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:$BUIL
 
 cd /tmp
 
-wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz       && \
-	tar xvzf nettle-$NETTLE_VERSION.tar.gz                                   && \
-	rm -f nettle-$NETTLE_VERSION.tar.gz                                      && \
-	cd nettle-$NETTLE_VERSION && ./configure --prefix=$HOME/.apt/usr && make && \
-	make install && ldconfig                                                 && \
+topic "Installing Nettle"
+wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz                && \
+	tar xvzf nettle-$NETTLE_VERSION.tar.gz                                            && \
+	rm -f nettle-$NETTLE_VERSION.tar.gz                                               && \
+	cd nettle-$NETTLE_VERSION && ./configure --prefix=$HOME/.apt/usr -LLIBDIR && make && \
+	make install && ldconfig                                                          && \
 	cd .. && rm -rf nettle-$NETTLE_VERSION
 
-wget -c https://ftp.gnu.org/gnu/libtasn1/libtasn1-$LIBTASN1_VERSION.tar.gz     && \
-	tar xvzf libtasn1-$LIBTASN1_VERSION.tar.gz                                   && \
-	rm -f libtasn1-$LIBTASN1_VERSION.tar.gz                                      && \
-	cd libtasn1-$LIBTASN1_VERSION && ./configure --prefix=$HOME/.apt/usr && make && \
-	make install && ldconfig                                                     && \
+topic "Installing libtasn1"
+wget -c https://ftp.gnu.org/gnu/libtasn1/libtasn1-$LIBTASN1_VERSION.tar.gz              && \
+	tar xvzf libtasn1-$LIBTASN1_VERSION.tar.gz                                            && \
+	rm -f libtasn1-$LIBTASN1_VERSION.tar.gz                                               && \
+	cd libtasn1-$LIBTASN1_VERSION && ./configure --prefix=$HOME/.apt/usr -LLIBDIR && make && \
+	make install && ldconfig                                                              && \
 	cd .. && rm -rf libtasn1-$LIBTASN1_VERSION
 
+topic "Installing p11-kit"
 wget -c https://github.com/p11-glue/p11-kit/releases/download/$P11_KIT_VERSION/p11-kit-$P11_KIT_VERSION.tar.gz && \
 	tar xvzf p11-kit-$P11_KIT_VERSION.tar.gz                                                                     && \
 	rm -f p11-kit-$P11_KIT_VERSION.tar.gz                                                                        && \
-	cd p11-kit-$P11_KIT_VERSION && ./configure --prefix=$HOME/.apt/usr && make                                   && \
+	cd p11-kit-$P11_KIT_VERSION && ./configure --prefix=$HOME/.apt/usr -LLIBDIR && make                          && \
 	make install && ldconfig                                                                                     && \
 	cd .. && rm -rf p11-kit-$P11_KIT_VERSION
 
-wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                     && \
-	tar xJf gnutls-3.6.7.tar.xz                                                                                && \
-	rm -f gnutls-3.6.7.tar.xz                                                                                  && \
-	cd gnutls-3.6.7 && ./configure --prefix=$HOME/.apt/usr --enable-guile GUILE="/usr/local/bin/guile" && make && \
-	make install && ldconfig                                                                                   && \
+topic "Installing GnuTLS"
+wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                              && \
+	tar xJf gnutls-3.6.7.tar.xz                                                                                         && \
+	rm -f gnutls-3.6.7.tar.xz                                                                                           && \
+	cd gnutls-3.6.7 && ./configure --prefix=$HOME/.apt/usr -LLIBDIR --enable-guile GUILE="/usr/local/bin/guile" && make && \
+	make install && ldconfig                                                                                            && \
 	cd .. && rm -rf gnutls-3.6.7
 
-wget -c https://github.com/opencog/guile-dbi/archive/guile-dbi-$GUILE_DBI_VERSION.tar.gz              && \
-	tar xvzf guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                        && \
-	rm -f guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                           && \
-	cd guile-dbi-guile-dbi-$GUILE_DBI_VERSION/guile-dbi && ./autogen.sh --prefix=$HOME/.apt/usr && make && \
-	make install && ldconfig                                                                            && \
-	cd ../guile-dbd-mysql && ./autogen.sh --prefix=$HOME/.apt/usr && make                               && \
-	make install && ldconfig                                                                            && \
+topic "Installing Guile DBI and DBD MySQL"
+wget -c https://github.com/opencog/guile-dbi/archive/guile-dbi-$GUILE_DBI_VERSION.tar.gz                       && \
+	tar xvzf guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                                 && \
+	rm -f guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                                    && \
+	cd guile-dbi-guile-dbi-$GUILE_DBI_VERSION/guile-dbi && ./autogen.sh --prefix=$HOME/.apt/usr -LLIBDIR && make && \
+	make install && ldconfig                                                                                     && \
+	cd ../guile-dbd-mysql && ./autogen.sh --prefix=$HOME/.apt/usr -LLIBDIR && make                               && \
+	make install && ldconfig                                                                                     && \
 	cd ../.. && rm -rf guile-dbi-guile-dbi-$GUILE_DBI_VERSION
 
-wget -c http://ftp.gnu.org/gnu/artanis/artanis-$ARTANIS_VERSION.tar.bz2      && \
-	tar xvjf artanis-$ARTANIS_VERSION.tar.bz2                                  && \
-	rm -f artanis-$ARTANIS_VERSION.tar.bz2                                     && \
-	cd artanis-$ARTANIS_VERSION && ./configure --prefix=$HOME/.apt/usr && make && \
-	make install && ldconfig                                                   && \
+topic "Installing Artanis"
+wget -c http://ftp.gnu.org/gnu/artanis/artanis-$ARTANIS_VERSION.tar.bz2               && \
+	tar xvjf artanis-$ARTANIS_VERSION.tar.bz2                                           && \
+	rm -f artanis-$ARTANIS_VERSION.tar.bz2                                              && \
+	cd artanis-$ARTANIS_VERSION && ./configure --prefix=$HOME/.apt/usr -LLIBDIR && make && \
+	make install && ldconfig                                                            && \
 	cd .. && rm -rf artanis-$ARTANIS_VERSION

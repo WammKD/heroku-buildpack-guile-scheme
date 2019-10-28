@@ -88,8 +88,8 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0                                                  | indent
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall autogen libgc1c2:i386 guile-2.2-dev libmysql++-dev libnss3 | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0                                             | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall autogen libgc1c2 guile-2.2-dev libmysql++-dev libnss3 | indent
 
 mkdir -p $BUILD_DIR/.apt
 

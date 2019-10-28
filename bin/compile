@@ -100,48 +100,15 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall autogen autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libgmp-dev libgmpxx4ldbl libltdl-dev libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libtool libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
+
 mkdir -p $BUILD_DIR/.apt
 
-install manpages
-install manpages-dev
-install liblocale-gettext-perl
-install libfile-fcntllock-perl
-install libdpkg-perl
-install libc-dev-bin
-install libc6-dev
-install libstdc++-7-dev
-install g++-7
-install g++
-install libtinfo-dev
-install libncurses5-dev
-install autotools-dev
-install libltdl-dev libtool
-install libalgorithm-diff-perl libalgorithm-diff-xs-perl
-install libalgorithm-merge-perl
-install libfakeroot
-install libgmpxx4ldbl
-install libgmp-dev
-install fakeroot
-install build-essential dpkg-dev
-install pkg-config
-install libreadline-dev
-install autogen-doc
-install libopts25
-install libopts25-dev
-install libgc1c2
-install libgc-dev
-install guile-2.0-libs
-install autogen
-install guile-2.2-libs
-install guile-2.2
-install guile-2.2-dev
-install zlib1g-dev
-install libmysqlclient-dev
-install default-libmysqlclient-dev
-install libmysql++3v5
-install libmysql++-dev
-install libnspr4
-install libnss3
+for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
+	topic "Installing $(basename $DEB)"
+
+	dpkg -x --configure $DEB $BUILD_DIR/.apt/
+done
 
 # apt-get upgrade    -y                                                           && \
 # apt-get build-dep  -y --no-install-recommends guile-2.0                         && \
@@ -178,6 +145,14 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 cd /tmp
+
+topic "Installing Guile"
+wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz && \
+	tar xvzf guile-$GUILE_VERSION.tar.gz                            && \
+	rm -f guile-$GUILE_VERSION.tar.gz                               && \
+	cd guile-$GUILE_VERSION && ./configure && make                  && \
+	make install                                                    && \
+	cd .. && rm -rf guile-$GUILE_VERSION
 
 # topic "Installing Nettle"
 # wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz            && \

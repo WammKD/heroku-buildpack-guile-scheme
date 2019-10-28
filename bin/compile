@@ -91,6 +91,8 @@ apt-get $APT_OPTIONS update | indent
 apt-get $APT_OPTIONS -y $APT_FORCE_YES -d build-dep             guile-2.0                            | indent
 apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install   --reinstall guile-2.2-dev libmysql++-dev libnss3 | indent
 
+mkdir -p $BUILD_DIR/.apt
+
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 	topic "Installing $(basename $DEB)"
 

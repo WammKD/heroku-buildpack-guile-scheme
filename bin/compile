@@ -160,11 +160,11 @@ wget -c https://github.com/p11-glue/p11-kit/releases/download/$P11_KIT_VERSION/p
 	cd .. && rm -rf p11-kit-$P11_KIT_VERSION
 
 topic "Installing GnuTLS"
-wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                          && \
-	tar xJf gnutls-3.6.7.tar.xz                                                                                     && \
-	rm -f gnutls-3.6.7.tar.xz                                                                                       && \
-	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="/usr/local/bin/guile" && make && \
-	make install && ldconfig                                                                                        && \
+wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                                       && \
+	tar xJf gnutls-3.6.7.tar.xz                                                                                                  && \
+	rm -f gnutls-3.6.7.tar.xz                                                                                                    && \
+	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="$BUILD_DIR/.apt/usr/bin/guile-2.2" && make && \
+	make install && ldconfig                                                                                                     && \
 	cd .. && rm -rf gnutls-3.6.7
 
 topic "Installing Guile DBI and DBD MySQL"

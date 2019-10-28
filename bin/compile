@@ -107,7 +107,7 @@ mkdir -p $BUILD_DIR/.apt
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 	topic "Installing $(basename $DEB)"
 
-	dpkg -x --configure $DEB $BUILD_DIR/.apt/
+	dpkg -x $DEB $BUILD_DIR/.apt/
 done
 
 # apt-get upgrade    -y                                                           && \
@@ -147,11 +147,11 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 cd /tmp
 
 topic "Installing Guile"
-wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz && \
-	tar xvzf guile-$GUILE_VERSION.tar.gz                            && \
-	rm -f guile-$GUILE_VERSION.tar.gz                               && \
-	cd guile-$GUILE_VERSION && ./configure && make                  && \
-	make install                                                    && \
+wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \
+	tar xvzf guile-$GUILE_VERSION.tar.gz                                        && \
+	rm -f guile-$GUILE_VERSION.tar.gz                                           && \
+	cd guile-$GUILE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
+	make install                                                                && \
 	cd .. && rm -rf guile-$GUILE_VERSION
 
 # topic "Installing Nettle"

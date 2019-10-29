@@ -36,18 +36,6 @@ function topic() {
 	echo "-----> $*"
 }
 
-function install() {
-	apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall $@ | indent
-
-	for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-		topic "Installing $(basename $DEB)"
-
-		dpkg -x $DEB $BUILD_DIR/.apt/
-	done
-
-	rm $APT_CACHE_DIR/archives/*.deb
-}
-
 
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"

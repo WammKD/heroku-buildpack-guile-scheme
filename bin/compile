@@ -83,7 +83,7 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall autogen autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
 
 mkdir -p $BUILD_DIR/.apt
 
@@ -151,37 +151,37 @@ wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               &&
 	make install                                                                && \
 	cd .. && rm -rf guile-$GUILE_VERSION
 
-topic "Installing Nettle"
-wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz            && \
-	tar xvzf nettle-$NETTLE_VERSION.tar.gz                                        && \
-	rm -f nettle-$NETTLE_VERSION.tar.gz                                           && \
-	cd nettle-$NETTLE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                                  && \
-	cd .. && rm -rf nettle-$NETTLE_VERSION
+# topic "Installing Nettle"
+# wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz            && \
+# 	tar xvzf nettle-$NETTLE_VERSION.tar.gz                                        && \
+# 	rm -f nettle-$NETTLE_VERSION.tar.gz                                           && \
+# 	cd nettle-$NETTLE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
+# 	make install                                                                  && \
+# 	cd .. && rm -rf nettle-$NETTLE_VERSION
 
-topic "Installing libtasn1"
-wget -c https://ftp.gnu.org/gnu/libtasn1/libtasn1-$LIBTASN1_VERSION.tar.gz          && \
-	tar xvzf libtasn1-$LIBTASN1_VERSION.tar.gz                                        && \
-	rm -f libtasn1-$LIBTASN1_VERSION.tar.gz                                           && \
-	cd libtasn1-$LIBTASN1_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                                      && \
-	cd .. && rm -rf libtasn1-$LIBTASN1_VERSION
+# topic "Installing libtasn1"
+# wget -c https://ftp.gnu.org/gnu/libtasn1/libtasn1-$LIBTASN1_VERSION.tar.gz          && \
+# 	tar xvzf libtasn1-$LIBTASN1_VERSION.tar.gz                                        && \
+# 	rm -f libtasn1-$LIBTASN1_VERSION.tar.gz                                           && \
+# 	cd libtasn1-$LIBTASN1_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
+# 	make install                                                                      && \
+# 	cd .. && rm -rf libtasn1-$LIBTASN1_VERSION
 
-topic "Installing p11-kit"
-wget -c https://github.com/p11-glue/p11-kit/releases/download/$P11_KIT_VERSION/p11-kit-$P11_KIT_VERSION.tar.gz && \
-	tar xvzf p11-kit-$P11_KIT_VERSION.tar.gz                                                                     && \
-	rm -f p11-kit-$P11_KIT_VERSION.tar.gz                                                                        && \
-	cd p11-kit-$P11_KIT_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make                              && \
-	make install                                                                                                 && \
-	cd .. && rm -rf p11-kit-$P11_KIT_VERSION
+# topic "Installing p11-kit"
+# wget -c https://github.com/p11-glue/p11-kit/releases/download/$P11_KIT_VERSION/p11-kit-$P11_KIT_VERSION.tar.gz && \
+# 	tar xvzf p11-kit-$P11_KIT_VERSION.tar.gz                                                                     && \
+# 	rm -f p11-kit-$P11_KIT_VERSION.tar.gz                                                                        && \
+# 	cd p11-kit-$P11_KIT_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make                              && \
+# 	make install                                                                                                 && \
+# 	cd .. && rm -rf p11-kit-$P11_KIT_VERSION
 
-topic "Installing GnuTLS"
-wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                                   && \
-	tar xJf gnutls-3.6.7.tar.xz                                                                                              && \
-	rm -f gnutls-3.6.7.tar.xz                                                                                                && \
-	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="$BUILD_DIR/.apt/usr/bin/guile" && make && \
-	make install                                                                                                             && \
-	cd .. && rm -rf gnutls-3.6.7
+# topic "Installing GnuTLS"
+# wget -c https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.7.tar.xz                                                   && \
+# 	tar xJf gnutls-3.6.7.tar.xz                                                                                              && \
+# 	rm -f gnutls-3.6.7.tar.xz                                                                                                && \
+# 	cd gnutls-3.6.7 && ./configure --prefix=$BUILD_DIR/.apt/usr --enable-guile GUILE="$BUILD_DIR/.apt/usr/bin/guile" && make && \
+# 	make install                                                                                                             && \
+# 	cd .. && rm -rf gnutls-3.6.7
 
 # topic "Installing Guile DBI and DBD MySQL"
 # wget -c https://github.com/opencog/guile-dbi/archive/guile-dbi-$GUILE_DBI_VERSION.tar.gz                   && \

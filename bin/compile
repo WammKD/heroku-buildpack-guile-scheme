@@ -148,14 +148,6 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 cd /tmp
 
-topic "Installing GnuMP"
-wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz                 && \
-	tar xJf  gmp-6.1.2.tar.xz                                        && \
-	rm -f gmp-6.1.2.tar.xz                                           && \
-	cd gmp-6.1.2 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                     && \
-	cd .. && rm -rf gmp-6.1.2
-
 topic "Installing libtool"
 wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz             && \
 	tar xvzf libtool-2.4.6.tar.gz                                        && \
@@ -163,6 +155,14 @@ wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz             && \
 	cd libtool-2.4.6 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
 	make install                                                         && \
 	cd .. && rm -rf libtool-2.4.6
+
+topic "Installing GnuMP"
+wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz                 && \
+	tar xJf  gmp-6.1.2.tar.xz                                        && \
+	rm -f gmp-6.1.2.tar.xz                                           && \
+	cd gmp-6.1.2 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
+	make install                                                     && \
+	cd .. && rm -rf gmp-6.1.2
 
 topic "Installing Guile"
 wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \

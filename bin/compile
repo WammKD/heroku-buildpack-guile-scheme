@@ -100,7 +100,7 @@ APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES -o dir::etc::sour
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
 
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall autogen autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libltdl7 libltdl-dev libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libtool libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall autogen autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
 
 mkdir -p $BUILD_DIR/.apt
 
@@ -153,6 +153,14 @@ wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz                 && \
 	cd gmp-6.1.2 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
 	make install                                                     && \
 	cd .. && rm -rf gmp-6.1.2
+
+topic "Installing libtool"
+wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz             && \
+	tar xvzf libtool-2.4.6.tar.gz                                        && \
+	rm -f libtool-2.4.6.tar.gz                                           && \
+	cd libtool-2.4.6 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
+	make install                                                         && \
+	cd .. && rm -rf libtool-2.4.6
 
 topic "Installing Guile"
 wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \

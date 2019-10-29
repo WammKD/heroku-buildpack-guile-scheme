@@ -38,9 +38,9 @@ function topic() {
 
 
 
-APT_CACHE_DIR="$CACHE_DIR/apt/cache"
-APT_STATE_DIR="$CACHE_DIR/apt/state"
-APT_SOURCELIST_DIR="$CACHE_DIR/apt/sources"   # place custom sources.list here
+APT_CACHE_DIR="$CACHE_DIR/apt-guile/cache"
+APT_STATE_DIR="$CACHE_DIR/apt-guile/state"
+APT_SOURCELIST_DIR="$CACHE_DIR/apt-guile/sources"   # place custom sources.list here
 
 APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
 

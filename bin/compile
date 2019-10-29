@@ -60,11 +60,11 @@ if
 	cmp -s $BUILD_DIR/Aptfile $APT_CACHE_DIR/Aptfile &&
 	[[ $CACHED_STACK == $STACK ]]
 then
-	# Old Aptfile is the same as new and STACK has not changed
+	# STACK has not changed
 	topic "Reusing cache"
 else
-	# Aptfile changed or does not exist or STACK changed
-	topic "Detected Aptfile or Stack changes, flushing cache"
+	# STACK changed
+	topic "Detected Stack changes, flushing cache"
 
 	rm -rf $APT_CACHE_DIR
 	mkdir -p "$APT_CACHE_DIR/archives/partial"
@@ -72,11 +72,6 @@ else
 	mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources
 
 	cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
-
-	# add custom repositories from Aptfile to sources.list
-	# like>>    :repo:deb http://cz.archive.ubuntu.com/ubuntu artful main universe
-	# topic "Adding custom repositories"
-  # echo "deb-src http://archive.ubuntu.com/ubuntu/ bionic main universe" >> $APT_SOURCES
 fi
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
@@ -97,10 +92,6 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 
 	dpkg -x $DEB $BUILD_DIR/.apt/
 done
-
-# apt-get upgrade    -y                                                           && \
-# apt-get build-dep  -y --no-install-recommends guile-2.0                         && \
-# apt-get install -q -y --no-install-recommends libmysql++-dev libnss3
 
 
 

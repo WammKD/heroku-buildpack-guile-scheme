@@ -15,8 +15,6 @@ GMP_VERSION=6.1.2
 GUILE_VERSION=2.2.6
 ARTANIS_VERSION=0.4
 LIBTOOL_VERSION=2.4.6
-GUILE_DBI_VERSION=2.1.7
-GUILE_DBD_MYSQL_VERSION=2.1.6
 
 function indent() {
 	c='s/^/       /'
@@ -177,15 +175,6 @@ fi
 
 make install && cd ..
 
-# topic "Installing Guile DBI and DBD MySQL"
-# wget -c https://github.com/opencog/guile-dbi/archive/guile-dbi-$GUILE_DBI_VERSION.tar.gz                   && \
-# 	tar xvzf guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                             && \
-# 	rm -f guile-dbi-$GUILE_DBI_VERSION.tar.gz                                                                && \
-# 	cd guile-dbi-guile-dbi-$GUILE_DBI_VERSION/guile-dbi && ./autogen.sh --prefix=$BUILD_DIR/.apt/usr && make && \
-# 	make install && ldconfig                                                                                 && \
-# 	cd ../guile-dbd-mysql && ./autogen.sh --prefix=$BUILD_DIR/.apt/usr && make                               && \
-# 	make install && ldconfig                                                                                 && \
-# 	cd ../.. && rm -rf guile-dbi-guile-dbi-$GUILE_DBI_VERSION
 
 # topic "Installing Artanis"
 # wget -c http://ftp.gnu.org/gnu/artanis/artanis-$ARTANIS_VERSION.tar.bz2           && \

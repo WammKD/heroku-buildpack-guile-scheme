@@ -2,10 +2,10 @@
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
-# set -e
+set -e
 
 # debug
-set -ex
+#set -ex
 
 # parse and derive params
 LP_DIR=`cd $(dirname $0); cd ..; pwd`

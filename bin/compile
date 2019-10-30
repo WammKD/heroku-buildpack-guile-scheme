@@ -173,3 +173,8 @@ else
 fi
 
 make install && cd ..
+
+
+topic "FUCK"
+echo $BUILD_DIR | indent
+cat $BUILD_DIR/.apt/usr/lib/pkgconfig/guile-2.2.pc

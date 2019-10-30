@@ -43,11 +43,17 @@ function topic() {
 APT_CACHE_DIR="$CACHE_DIR/apt-guile/cache"
 APT_STATE_DIR="$CACHE_DIR/apt-guile/state"
 APT_SOURCELIST_DIR="$CACHE_DIR/apt-guile/sources"   # place custom sources.list here
+APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
+APT_VERSION=$(apt-get -v | awk 'NR == 1{ print $2 }')
+
 BUILDS_CACHE_DIR="$CACHE_DIR/guile-builds"
 
-APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
-
-APT_VERSION=$(apt-get -v | awk 'NR == 1{ print $2 }')
+# Store which STACK we are running on in the cache to bust the cache if it changes
+if [ -f $CACHE_DIR/.apt/STACK ]; then
+  CACHED_STACK=$(cat "$CACHE_DIR/.apt/STACK")
+else
+  CACHED_STACK=$STACK
+fi
 
 case "$APT_VERSION" in
 	0* | 1.0*)

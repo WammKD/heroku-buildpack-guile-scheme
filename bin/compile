@@ -41,6 +41,7 @@ function topic() {
 APT_CACHE_DIR="$CACHE_DIR/apt-guile/cache"
 APT_STATE_DIR="$CACHE_DIR/apt-guile/state"
 APT_SOURCELIST_DIR="$CACHE_DIR/apt-guile/sources"   # place custom sources.list here
+BUILDS_CACHE_DIR="$CACHE_DIR/guile-builds"
 
 APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
 
@@ -70,6 +71,9 @@ else
 	mkdir -p "$APT_CACHE_DIR/archives/partial"
 	mkdir -p "$APT_STATE_DIR/lists/partial"
 	mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources
+
+	rm -rf $BUILDS_CACHE_DIR
+	mkdir -p "$BUILDS_CACHE_DIR"
 
 	cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
 fi
@@ -125,7 +129,7 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 
-cd /tmp
+cd $BUILDS_CACHE_DIR
 
 topic "Installing libtool"
 wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz             && \

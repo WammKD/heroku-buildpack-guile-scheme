@@ -11,9 +11,11 @@ set -ex
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 BUILD_DIR=$1
 CACHE_DIR=$2
+GMP_VERSION=6.1.2
 GUILE_VERSION=2.2.6
 NETTLE_VERSION=3.4.1
 ARTANIS_VERSION=0.4
+LIBTOOL_VERSION=2.4.6
 P11_KIT_VERSION=0.23.15
 LIBTASN1_VERSION=4.13
 GUILE_DBI_VERSION=2.1.7
@@ -132,28 +134,48 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 cd $BUILDS_CACHE_DIR
 
 topic "Installing libtool"
-wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.gz             && \
-	tar xvzf libtool-2.4.6.tar.gz                                        && \
-	rm -f libtool-2.4.6.tar.gz                                           && \
-	cd libtool-2.4.6 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                         && \
-	cd .. && rm -rf libtool-2.4.6
+if
+	[ ! -d "$BUILDS_CACHE_DIR/libtool-$LIBTOOL_VERSION" ]
+then
+	wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz             && \
+		tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                                        && \
+		rm -f libtool-$LIBTOOL_VERSION.tar.gz                                           && \
+		cd libtool-$LIBTOOL_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make
+else
+	cd libtool-$LIBTOOL_VERSION
+fi
+
+make install && cd ..
+
 
 topic "Installing GnuMP"
-wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-6.1.2.tar.xz                 && \
-	tar xJf  gmp-6.1.2.tar.xz                                        && \
-	rm -f gmp-6.1.2.tar.xz                                           && \
-	cd gmp-6.1.2 && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                     && \
-	cd .. && rm -rf gmp-6.1.2
+if
+	[ ! -d "$BUILDS_CACHE_DIR/gmp-$GMP_VERSION" ]
+then
+	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz                 && \
+		tar xJf  gmp-$GMP_VERSION.tar.xz                                        && \
+		rm -f gmp-$GMP_VERSION.tar.xz                                           && \
+		cd gmp-$GMP_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make
+else
+	cd gmp-$GMP_VERSION
+fi
+
+make install && cd ..
+
 
 topic "Installing Guile"
-wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \
-	tar xvzf guile-$GUILE_VERSION.tar.gz                                        && \
-	rm -f guile-$GUILE_VERSION.tar.gz                                           && \
-	cd guile-$GUILE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && \
-	make install                                                                && \
-	cd .. && rm -rf guile-$GUILE_VERSION
+if
+	[ ! -d "$BUILDS_CACHE_DIR/guile-$GUILE_VERSION" ]
+then
+	wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \
+		tar xvzf guile-$GUILE_VERSION.tar.gz                                        && \
+		rm -f guile-$GUILE_VERSION.tar.gz                                           && \
+		cd guile-$GUILE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make
+else
+	cd guile-$GUILE_VERSION
+fi
+
+make install && cd ..
 
 # topic "Installing Nettle"
 # wget -c https://ftp.gnu.org/gnu/nettle/nettle-$NETTLE_VERSION.tar.gz            && \

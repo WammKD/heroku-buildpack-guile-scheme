@@ -59,8 +59,6 @@ case "$APT_VERSION" in
 esac
 
 if
-	[ -f $APT_CACHE_DIR/Aptfile ]                    &&
-	cmp -s $BUILD_DIR/Aptfile $APT_CACHE_DIR/Aptfile &&
 	[[ $CACHED_STACK == $STACK ]]
 then
 	# STACK has not changed

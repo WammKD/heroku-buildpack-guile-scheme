@@ -79,7 +79,6 @@ else
 	mkdir -p "$APT_SOURCELIST_DIR"   # make dir for sources
 
 	rm -rf $BUILDS_CACHE_DIR
-	mkdir -p "$BUILDS_CACHE_DIR"
 
 	cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
 fi
@@ -135,7 +134,7 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 
-cd $BUILDS_CACHE_DIR
+mkdir -p $BUILDS_CACHE_DIR && cd $BUILDS_CACHE_DIR
 
 topic "Installing libtool"
 if

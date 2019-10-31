@@ -165,3 +165,7 @@ then
 fi
 
 cd guile-$GUILE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+
+
+ln -s $BUILD_DIR/.apt/usr/include/guile/2.2/libguile   $BUILD_DIR/.apt/usr/include/libguile
+ln -s $BUILD_DIR/.apt/usr/include/guile/2.2/libguile.h $BUILD_DIR/.apt/usr/include/libguile.h

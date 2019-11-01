@@ -139,18 +139,12 @@ wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
-
-
 topic "Installing GnuMP"
-if
-	[ ! -d "$BUILDS_CACHE_DIR/gmp-$GMP_VERSION" ]
-then
-	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz && \
-		tar xJf  gmp-$GMP_VERSION.tar.xz                        && \
-		rm -f gmp-$GMP_VERSION.tar.xz
-fi
-
-cd gmp-$GMP_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz && \
+	tar xJf  gmp-$GMP_VERSION.tar.xz                        && \
+	rm -f gmp-$GMP_VERSION.tar.xz                           && \
+	cd gmp-$GMP_VERSION                                     && \
+	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
 topic "Installing Guile"

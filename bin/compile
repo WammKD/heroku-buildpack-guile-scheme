@@ -140,6 +140,14 @@ wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
+topic "Installing GLIBC"
+wget -c ftp://ftp.gnu.org/gnu/libc/glibc-2.30.tar.gz && \
+	tar xvzf glibc-2.30.tar.gz                         && \
+	rm -f glibc-2.30.tar.gz                            && \
+	cd glibc-2.30                                      && \
+	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+
+
 topic "Installing gcc"
 wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
 	tar xvzf gcc-9.2.0.tar.gz                                  && \

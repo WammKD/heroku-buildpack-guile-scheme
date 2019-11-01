@@ -154,8 +154,11 @@ fi
 
 cd gcc-9.2.0 && ./contrib/download_prerequisites                                       && \
 	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
+	cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+
+find $BUILD_DIR/.apt -iname libmpfr.la | indent
+
+cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 

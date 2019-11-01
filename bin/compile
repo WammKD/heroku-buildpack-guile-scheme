@@ -140,24 +140,25 @@ wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
 
 
 topic "Installing gcc"
-wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz                          && \
-	tar xvzf gcc-9.2.0.tar.gz                                                           && \
-	rm -f gcc-9.2.0.tar.gz                                                              && \
-	cd gcc-9.2.0 && ./contrib/download_prerequisites                                    && \
-	cd gmp && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
+	tar xvzf gcc-9.2.0.tar.gz                                  && \
+	rm -f gcc-9.2.0.tar.gz                                     && \
+	cp -r gcc-9.2.0 gcc-backup
 
-topic "SHIT"
-find $BUILD_DIR/.apt -iname libgmp.la | indent
-cat $BUILD_DIR/.apt/usr/lib/libgmp.la | indent
+topic "Downloading gcc dependencies"
+cd gcc-9.2.0 && ./contrib/download_prerequisites
 
+topic "Installing GnuMP"
+cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+
+topic "Installing MPFR"
 cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
-topic "FUCK"
-find $BUILD_DIR/.apt -iname libgmp.la | indent
-cat $BUILD_DIR/.apt/usr/lib/libgmp.la | indent
+topic "Installing MPC"
+cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
-cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	make distclean && ./configure --prefix=$BUILD_DIR/.apt/usr --disable-multilib && make && make install && cd ..
+topic "Installing GCC"
+cd ../gcc-backup && ./configure --prefix=$BUILD_DIR/.apt/usr --disable-multilib && make && make install && cd ..
 
 
 topic "Installing Guile"

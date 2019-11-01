@@ -87,7 +87,7 @@ cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
                                                               #Artanis
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall libnss3  autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall libnss3  autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
 
 mkdir -p $BUILD_DIR/.apt
 
@@ -104,7 +104,7 @@ mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export PATH="\$HOME/.apt/usr/bin:\$PATH"
 export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LD_LIBRARY_PATH"
-export LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib"
+export LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LIBRARY_PATH"
 export INCLUDE_PATH="\$HOME/.apt/usr/include:\$HOME/.apt/usr/include/x86_64-linux-gnu:\$INCLUDE_PATH"
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
@@ -114,8 +114,7 @@ EOF
 
 export PATH="$BUILD_DIR/.apt/usr/bin:$PATH"
 export LD_LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LD_LIBRARY_PATH"
-# export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
-export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib"
+export LIBRARY_PATH="$BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu:$BUILD_DIR/.apt/usr/lib/i386-linux-gnu:$BUILD_DIR/.apt/usr/lib:$LIBRARY_PATH"
 export INCLUDE_PATH="$BUILD_DIR/.apt/usr/include:$BUILD_DIR/.apt/usr/include/x86_64-linux-gnu:$INCLUDE_PATH"
 export CPATH="$INCLUDE_PATH"
 export CPPPATH="$INCLUDE_PATH"
@@ -140,34 +139,18 @@ wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
-topic "Installing GLIBC"
-wget -c ftp://ftp.gnu.org/gnu/libc/glibc-2.30.tar.gz && \
-	tar xvzf glibc-2.30.tar.gz                         && \
-	rm -f glibc-2.30.tar.gz                            && \
-	cd glibc-2.30                                      && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
-
-topic "Installing gcc"
-wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
-	tar xvzf gcc-9.2.0.tar.gz                                  && \
-	rm -f gcc-9.2.0.tar.gz                                     && \
-	cp -r gcc-9.2.0 gcc-backup
-
-topic "Downloading gcc dependencies"
-cd gcc-9.2.0 && ./contrib/download_prerequisites
 
 topic "Installing GnuMP"
-cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+if
+	[ ! -d "$BUILDS_CACHE_DIR/gmp-$GMP_VERSION" ]
+then
+	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz && \
+		tar xJf  gmp-$GMP_VERSION.tar.xz                        && \
+		rm -f gmp-$GMP_VERSION.tar.xz
+fi
 
-topic "Installing MPFR"
-cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
-
-topic "Installing MPC"
-cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
-
-topic "Installing GCC"
-cd ../gcc-backup && ./configure --prefix=$BUILD_DIR/.apt/usr --disable-multilib && make && make install && cd ..
+cd gmp-$GMP_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
 topic "Installing Guile"

@@ -157,7 +157,7 @@ find $BUILD_DIR/.apt -iname libgmp.la | indent
 cat $BUILD_DIR/.apt/usr/lib/libgmp.la | indent
 
 cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	./configure --prefix=$BUILD_DIR/.apt/usr --disable-multilib && make && make install && cd ..
+	make distclean && ./configure --prefix=$BUILD_DIR/.apt/usr --disable-multilib && make && make install && cd ..
 
 
 topic "Installing Guile"

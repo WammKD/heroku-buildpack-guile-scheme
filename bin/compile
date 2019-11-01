@@ -153,11 +153,17 @@ then
 fi
 
 cd gcc-9.2.0 && ./contrib/download_prerequisites                                       && \
-	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+
+topic "SHIT"
+find $BUILD_DIR/.apt -iname libgmp.la | indent
+cat $BUILD_DIR/.apt/usr/lib/libgmp.la | indent
+
+cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 topic "FUCK"
-cat $BUILD_DIR/.apt/usr/lib/libmpfr.la | indent
+find $BUILD_DIR/.apt -iname libgmp.la | indent
+cat $BUILD_DIR/.apt/usr/lib/libgmp.la | indent
 
 cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..

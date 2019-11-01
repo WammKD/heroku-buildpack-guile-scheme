@@ -131,22 +131,6 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 mkdir -p $BUILDS_CACHE_DIR && cd $BUILDS_CACHE_DIR
 
-topic "Installing gcc"
-if
-	[ ! -d "$BUILDS_CACHE_DIR/gcc-9.2.0" ]
-then
-	wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
-		tar xvzf gcc-9.2.0.tar.gz                                  && \
-		rm -f gcc-9.2.0.tar.gz
-fi
-
-cd gcc-9.2.0 && ./contrib/download_prerequisites                                       && \
-	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
-
-
 topic "Installing libtool"
 if
 	[ ! -d "$BUILDS_CACHE_DIR/libtool-$LIBTOOL_VERSION" ]
@@ -159,16 +143,20 @@ fi
 cd libtool-$LIBTOOL_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
-topic "Installing GnuMP"
+topic "Installing gcc"
 if
-	[ ! -d "$BUILDS_CACHE_DIR/gmp-$GMP_VERSION" ]
+	[ ! -d "$BUILDS_CACHE_DIR/gcc-9.2.0" ]
 then
-	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz && \
-		tar xJf  gmp-$GMP_VERSION.tar.xz                        && \
-		rm -f gmp-$GMP_VERSION.tar.xz
+	wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
+		tar xvzf gcc-9.2.0.tar.gz                                  && \
+		rm -f gcc-9.2.0.tar.gz
 fi
 
-cd gmp-$GMP_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+cd gcc-9.2.0 && ./contrib/download_prerequisites                                       && \
+	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
+	cd mpfr && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
+	cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd .. && \
+	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
 topic "Installing Guile"

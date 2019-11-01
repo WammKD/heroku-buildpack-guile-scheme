@@ -129,31 +129,22 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 
-mkdir -p $BUILDS_CACHE_DIR && cd $BUILDS_CACHE_DIR
+cd /tmp
 
 topic "Installing libtool"
-if
-	[ ! -d "$BUILDS_CACHE_DIR/libtool-$LIBTOOL_VERSION" ]
-then
-	wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
-		tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
-		rm -f libtool-$LIBTOOL_VERSION.tar.gz
-fi
-
-cd libtool-$LIBTOOL_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
+	tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
+	rm -f libtool-$LIBTOOL_VERSION.tar.gz                               && \
+	cd libtool-$LIBTOOL_VERSION                                         && \
+	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
 topic "Installing gcc"
-if
-	[ ! -d "$BUILDS_CACHE_DIR/gcc-9.2.0" ]
-then
-	wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz && \
-		tar xvzf gcc-9.2.0.tar.gz                                  && \
-		rm -f gcc-9.2.0.tar.gz
-fi
-
-cd gcc-9.2.0 && ./contrib/download_prerequisites                                       && \
-	cd gmp  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+wget -c ftp://ftp.gnu.org/gnu/gcc/gcc-9.2.0/gcc-9.2.0.tar.gz                          && \
+	tar xvzf gcc-9.2.0.tar.gz                                                           && \
+	rm -f gcc-9.2.0.tar.gz                                                              && \
+	cd gcc-9.2.0 && ./contrib/download_prerequisites                                    && \
+	cd gmp && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 topic "SHIT"
 find $BUILD_DIR/.apt -iname libgmp.la | indent
@@ -170,15 +161,11 @@ cd mpc  && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && c
 
 
 topic "Installing Guile"
-if
-	[ ! -d "$BUILDS_CACHE_DIR/guile-$GUILE_VERSION" ]
-then
-	wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz               && \
-		tar xvzf guile-$GUILE_VERSION.tar.gz                                        && \
-		rm -f guile-$GUILE_VERSION.tar.gz
-fi
-
-cd guile-$GUILE_VERSION && ./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz             && \
+	tar xvzf guile-$GUILE_VERSION.tar.gz                                      && \
+	rm -f guile-$GUILE_VERSION.tar.gz                                         && \
+	cd guile-$GUILE_VERSION                                                   && \
+	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
 ln -s $BUILD_DIR/.apt/usr/include/guile/2.2/libguile   $BUILD_DIR/.apt/usr/include/libguile

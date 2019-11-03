@@ -158,3 +158,4 @@ wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz             && \
 
 ln -s $BUILD_DIR/.apt/usr/include/guile/2.2/libguile   $BUILD_DIR/.apt/usr/include/libguile
 ln -s $BUILD_DIR/.apt/usr/include/guile/2.2/libguile.h $BUILD_DIR/.apt/usr/include/libguile.h
+ln -s $BUILD_DIR/.apt/usr/lib/guile                    $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/

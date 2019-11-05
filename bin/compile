@@ -84,7 +84,7 @@ cat "/etc/apt/sources.list" > "$APT_SOURCES"    # no cp here
 topic "Updating apt caches"
 apt-get $APT_OPTIONS update | indent
                                                               #Artanis
-apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall libnss3  autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
+apt-get $APT_OPTIONS -y $APT_FORCE_YES -d install --reinstall libnss3  autoconf automake autopoint autotools-dev bsdmainutils build-essential debhelper dh-autoreconf dh-strip-nondeterminism dpkg-dev flex g++ g++-7 gcc-multilib g++-multilib gettext gettext-base groff-base intltool-debian libarchive-zip-perl libc-dev-bin libc6-dev libdpkg-perl libffi-dev libfile-stripnondeterminism-perl libgc-dev libgc1c2 libncurses5-dev libpipeline1 libreadline-dev libsigsegv2 libstdc++-7-dev libtext-unidecode-perl libtimedate-perl libtinfo-dev libunistring-dev libxml-libxml-perl libxml-namespacesupport-perl libxml-sax-base-perl libxml-sax-perl linux-libc-dev m4 man-db pkg-config po-debconf tex-common texinfo | indent
 
 mkdir -p $BUILD_DIR/.apt
 

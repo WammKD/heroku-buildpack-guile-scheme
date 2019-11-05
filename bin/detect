@@ -1,12 +1,5 @@
 #!/bin/sh
 
-# this pack is valid for apps with an ENTRY file for Artanis
-if
-	[ -f $1/ENTRY ]
-then
-	echo "Guile"
+echo "Guile"
 
-	exit 0
-else
-  exit 1
-fi
+exit 0

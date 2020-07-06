@@ -156,6 +156,12 @@ wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz             && \
 	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
+topic "FUCKERSHIT2"
+topic "$(ls -A $BUILD_DIR/.apt/usr/lib)"
+topic "$(ls -A $BUILD_DIR/.apt/usr/lib/gcc)"
+topic "$(ls -A $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7)"
+
+
 cd $BUILD_DIR/.apt/usr/include/
 ln -s  ./guile/3.0/libguile   .
 ln -s  ./guile/3.0/libguile.h .

@@ -169,8 +169,5 @@ ln -s  ./guile/3.0/libguile.h .
 cd $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/
 ln -s ../guile                .
 
-cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/
-ln -s $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/32/* .
-
 # cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/
 # ln -s /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so .

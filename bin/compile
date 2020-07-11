@@ -72,6 +72,7 @@ else
 	topic "Detected Stack changes, flushing cache"
 
 	rm -rf $APT_CACHE_DIR
+	rm -rf $GUILE_CACHE_DIR
 fi
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"

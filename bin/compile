@@ -159,19 +159,39 @@ cd ..
 
 
 topic "Installing GnuMP"
-wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz && \
-	tar xJf  gmp-$GMP_VERSION.tar.xz                        && \
-	rm -f gmp-$GMP_VERSION.tar.xz                           && \
-	cd gmp-$GMP_VERSION                                     && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+if
+	[ -d $GUILE_CACHE_DIR/gmp-$GMP_VERSION ]
+then
+	cd gmp-$GMP_VERSION
+
+	make install
+else
+	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz          && \
+		tar xJf  gmp-$GMP_VERSION.tar.xz                                 && \
+		rm -f gmp-$GMP_VERSION.tar.xz                                    && \
+		cd gmp-$GMP_VERSION                                              && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install
+fi
+
+cd ..
 
 
 topic "Installing Guile"
-wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz             && \
-	tar xvzf guile-$GUILE_VERSION.tar.gz                                      && \
-	rm -f guile-$GUILE_VERSION.tar.gz                                         && \
-	cd guile-$GUILE_VERSION                                                   && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+if
+	[ -d $GUILE_CACHE_DIR/guile-$GUILE_VERSION ]
+then
+	cd guile-$GUILE_VERSION
+
+	make install
+else
+	wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz    && \
+		tar xvzf guile-$GUILE_VERSION.tar.gz                             && \
+		rm -f guile-$GUILE_VERSION.tar.gz                                && \
+		cd guile-$GUILE_VERSION                                          && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install
+fi
+
+cd ..
 
 
 cd $BUILD_DIR/.apt/usr/include/

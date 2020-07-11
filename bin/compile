@@ -139,6 +139,8 @@ if
 	[ -f $CACHE_DIR/.apt/usr/bin/guile ]
 then
 	rsync -a $CACHE_DIR/.apt/ $BUILD_DIR/.apt/
+
+	sed -i -r 's/\/tmp\/build_.+\/\.apt\/usr/'"${BUILD_DIR//\//\\\/}"'\/\.apt\/usr/g' $BUILD_DIR/.apt/usr/bin/guild
 else
 	cd /tmp
 

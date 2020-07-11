@@ -34,6 +34,8 @@ function topic() {
 
 
 
+GUILE_CACHE_DIR="$CACHE_DIR/guile"
+
 APT_CACHE_DIR="$CACHE_DIR/apt-guile/cache"
 APT_STATE_DIR="$CACHE_DIR/apt-guile/state"
 APT_SOURCELIST_DIR="$CACHE_DIR/apt-guile/sources"   # place custom sources.list here

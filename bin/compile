@@ -146,6 +146,8 @@ if
 then
 	cd libtool-$LIBTOOL_VERSION
 
+	sed -i '/prefix = \/tmp\/build_/c\prefix = '"$BUILD_DIR/.apt/usr" Makefile
+
 	make install
 else
 	wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
@@ -164,10 +166,12 @@ if
 then
 	cd gmp-$GMP_VERSION
 
+	sed -i '/prefix = \/tmp\/build_/c\prefix = '"$BUILD_DIR/.apt/usr" Makefile
+
 	make install
 else
 	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz          && \
-		tar xJf  gmp-$GMP_VERSION.tar.xz                                 && \
+		tar xJf gmp-$GMP_VERSION.tar.xz                                  && \
 		rm -f gmp-$GMP_VERSION.tar.xz                                    && \
 		cd gmp-$GMP_VERSION                                              && \
 		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install
@@ -181,6 +185,8 @@ if
 	[ -d $GUILE_CACHE_DIR/guile-$GUILE_VERSION ]
 then
 	cd guile-$GUILE_VERSION
+
+	sed -i '/prefix = \/tmp\/build_/c\prefix = '"$BUILD_DIR/.apt/usr" Makefile
 
 	make install
 else

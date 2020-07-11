@@ -194,6 +194,9 @@ fi
 cd ..
 
 
+sed -i -r 's/\/tmp\/build_.+\/\.apt\/usr/'"${BUILD_DIR//\//\\\/}"'\/\.apt\/usr/g' $BUILD_DIR/.apt/usr/guild
+
+
 cd $BUILD_DIR/.apt/usr/include/
 ln -s  ./guile/3.0/libguile   .
 ln -s  ./guile/3.0/libguile.h .

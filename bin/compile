@@ -141,11 +141,21 @@ mkdir -p $GUILE_CACHE_DIR
 cd $GUILE_CACHE_DIR
 
 topic "Installing libtool"
-wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
-	tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
-	rm -f libtool-$LIBTOOL_VERSION.tar.gz                               && \
-	cd libtool-$LIBTOOL_VERSION                                         && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+if
+	[ -d $GUILE_CACHE_DIR/libtool-$LIBTOOL_VERSION ]
+then
+	cd libtool-$LIBTOOL_VERSION
+
+	make install
+else
+	wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
+		tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
+		rm -f libtool-$LIBTOOL_VERSION.tar.gz                               && \
+		cd libtool-$LIBTOOL_VERSION                                         && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install
+fi
+
+cd ..
 
 
 topic "Installing GnuMP"

@@ -137,7 +137,8 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 
-cd /tmp
+mkdir -p $GUILE_CACHE_DIR
+cd $GUILE_CACHE_DIR
 
 topic "Installing libtool"
 wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \

@@ -49,6 +49,10 @@ else
   CACHED_STACK=$STACK
 fi
 
+# Ensure we store the STACK in the cache for next time.
+mkdir -p "$CACHE_DIR/.apt"
+echo "$STACK" > "$CACHE_DIR/.apt/STACK"
+
 case "$APT_VERSION" in
 	0* | 1.0*)
 		APT_FORCE_YES="--force-yes"

@@ -203,7 +203,3 @@ ln -s ../guile                .
 
 # cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/
 # ln -s /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so .
-find / -iname *guile* | indent
-
-topic "FUCK?"
-find $BUILD_DIR -iname *guile* | indent

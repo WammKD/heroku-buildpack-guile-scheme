@@ -194,7 +194,7 @@ fi
 cd ..
 
 
-sed -i -r 's/\/tmp\/build_.+\/\.apt\/usr/'"${BUILD_DIR//\//\\\/}"'\/\.apt\/usr/g' $BUILD_DIR/.apt/usr/guild
+sed -i -r 's/\/tmp\/build_.+\/\.apt\/usr/'"${BUILD_DIR//\//\\\/}"'\/\.apt\/usr/g' $BUILD_DIR/.apt/usr/bin/guild
 
 
 cd $BUILD_DIR/.apt/usr/include/

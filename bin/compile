@@ -172,6 +172,8 @@ else
 
 	cd $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/
 	ln -s ../guile                .
+
+	cp -r $BUILD_DIR/.apt/* $CACHE_DIR/.apt/
 fi
 
 # cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/

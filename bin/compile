@@ -63,12 +63,8 @@ case "$APT_VERSION" in
 		;;
 esac
 
-ls -A $CACHE_DIR/.apt | indent
-ls -A $CACHE_DIR/.apt/usr | indent
-ls -A $CACHE_DIR/.apt/usr/bin | indent
-
 if
-	[[ $CACHED_STACK == $STACK ]] && [ -f $CACHE_DIR/.apt/usr/bin/art ]
+	[[ $CACHED_STACK == $STACK ]] && [ -f $CACHE_DIR/.apt/bin/art ]
 then
 	# STACK has not changed
 	topic "Reusing cache"
@@ -148,7 +144,7 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 if
-	[ ! -f $CACHE_DIR/.apt/usr/bin/art ]
+	[ ! -f $CACHE_DIR/.apt/bin/art ]
 then
 	cd /tmp
 

@@ -61,7 +61,7 @@ case "$APT_VERSION" in
 esac
 
 if
-	[[ $CACHED_STACK == $STACK ]]
+	[[ $CACHED_STACK == $STACK ]] && [ -f $CACHE_DIR/.apt/usr/bin/art ]
 then
 	# STACK has not changed
 	topic "Reusing cache"
@@ -69,7 +69,13 @@ else
 	# STACK changed
 	topic "Detected Stack changes, flushing cache"
 
-	rm -rf $APT_CACHE_DIR
+	if
+		[[ $CACHED_STACK != $STACK ]]
+	then
+		rm -rf $APT_CACHE_DIR
+	fi
+
+	rm -rf $CACHE_DIR/.apt/!("STACK")
 fi
 
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
@@ -134,38 +140,42 @@ find $BUILD_DIR/.apt -type f -ipath '*/pkgconfig/*.pc' | xargs --no-run-if-empty
 
 
 
-cd /tmp
+if
+	[ ! -f $CACHE_DIR/.apt/usr/bin/art ]
+then
+	cd /tmp
 
-topic "Installing libtool"
-wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
-	tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
-	rm -f libtool-$LIBTOOL_VERSION.tar.gz                               && \
-	cd libtool-$LIBTOOL_VERSION                                         && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install    && cd ..
-
-
-topic "Installing GnuMP"
-wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz          && \
-	tar xJf gmp-$GMP_VERSION.tar.xz                                  && \
-	rm -f gmp-$GMP_VERSION.tar.xz                                    && \
-	cd gmp-$GMP_VERSION                                              && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+	topic "Installing libtool"
+	wget -c ftp://ftp.gnu.org/gnu/libtool/libtool-$LIBTOOL_VERSION.tar.gz && \
+		tar xvzf libtool-$LIBTOOL_VERSION.tar.gz                            && \
+		rm -f libtool-$LIBTOOL_VERSION.tar.gz                               && \
+		cd libtool-$LIBTOOL_VERSION                                         && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install    && cd ..
 
 
-topic "Installing Guile"
-wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz    && \
-	tar xvzf guile-$GUILE_VERSION.tar.gz                             && \
-	rm -f guile-$GUILE_VERSION.tar.gz                                && \
-	cd guile-$GUILE_VERSION                                          && \
-	./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
+	topic "Installing GnuMP"
+	wget -c ftp://ftp.gnu.org/gnu/gmp/gmp-$GMP_VERSION.tar.xz          && \
+		tar xJf gmp-$GMP_VERSION.tar.xz                                  && \
+		rm -f gmp-$GMP_VERSION.tar.xz                                    && \
+		cd gmp-$GMP_VERSION                                              && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
 
-cd $BUILD_DIR/.apt/usr/include/
-ln -s  ./guile/3.0/libguile   .
-ln -s  ./guile/3.0/libguile.h .
+	topic "Installing Guile"
+	wget -c ftp://ftp.gnu.org/gnu/guile/guile-$GUILE_VERSION.tar.gz    && \
+		tar xvzf guile-$GUILE_VERSION.tar.gz                             && \
+		rm -f guile-$GUILE_VERSION.tar.gz                                && \
+		cd guile-$GUILE_VERSION                                          && \
+		./configure --prefix=$BUILD_DIR/.apt/usr && make && make install && cd ..
 
-cd $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/
-ln -s ../guile                .
 
-# cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/
-# ln -s /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so .
+	cd $BUILD_DIR/.apt/usr/include/
+	ln -s  ./guile/3.0/libguile   .
+	ln -s  ./guile/3.0/libguile.h .
+
+	cd $BUILD_DIR/.apt/usr/lib/x86_64-linux-gnu/
+	ln -s ../guile                .
+
+	# cd $BUILD_DIR/.apt/usr/lib/gcc/x86_64-linux-gnu/7/
+	# ln -s /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so .
+fi

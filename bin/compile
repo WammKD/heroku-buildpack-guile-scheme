@@ -64,7 +64,7 @@ case "$APT_VERSION" in
 esac
 
 if
-	[[ $CACHED_STACK != $STACK ]] && [ -f $CACHE_DIR/.apt/bin/art ]
+	[[ $CACHED_STACK == $STACK ]] && [ -f $CACHE_DIR/.apt/bin/art ]
 then
 	# STACK has not changed
 	topic "Reusing cache"
